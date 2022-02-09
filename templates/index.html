@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function showImg(file){
+            var reader = new FileReader();
+            reader.onload = function (evt){
+                document.getElementById('myImage').src = evt.target.result;
+            }
+            reader.readAsDataURL(file.files[0])
+        }
+    </script>
+</head>
+<body>
+
+    <form method="post" action="/upload" enctype="multipart/form-data" >
+        <input type="file" name="myImg" onchange="showImg(this)">
+        <input type="submit" value="上传图片">
+    </form>
+    <br>
+    <img id="myImage">
+<img src="../static/imgs/img.jpg">
+<img src="../static/output/out.jpg">
+</body>
+</html>
