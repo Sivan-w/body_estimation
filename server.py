@@ -1,4 +1,5 @@
 from flask import Flask, make_response, render_template, request
+import caculate_angle as ca
 from turbojpeg import TurboJPEG
 import paddlehub as hub
 import numpy as np
@@ -11,28 +12,18 @@ import os
 
 app = Flask(__name__)
 model = hub.Module(name='openpose_body_estimation')
-
-
-# def load_turbojpeg():
-#     basePath = os.path.split(os.path.realpath(__file__))[0]
-#     TurboJPEGPath = basePath + '\\turbojpeg.dll'
-#     turbojpeg = TurboJPEG(TurboJPEGPath)
-#     return turbojpeg
-#
-#
-# image_focus = 14521.6
-# turbojpeg = load_turbojpeg()
+someadvice = "欢迎使用坐姿检测器(｡･∀･)ﾉﾞ嗨"
 
 
 @app.route('/index')
 def indexes():
-    return render_template('index.html')
+    return render_template('index.html', advice=someadvice)
 
 
 @app.route('/upload', methods=['GET', 'POST'])
 def uploadImg():
     if request.method == 'GET':
-        return render_template('index.html')
+        return render_template('index.html', advice=someadvice)
     elif request.method == 'POST':
         if 'myImg' in request.files:
             objFile = request.files.get('myImg')
@@ -50,6 +41,9 @@ def uploadImg():
             # 跑模型
             result = model.predict('D:\\project\\pythonPrj\\body_estimation\\static\\imgs\\' + objFile.filename,
                                    path)
+            p = ca.PoseAnalyzer(result)
+            advice = p.logic_realize()
+            print(advice)
             print(result['candidate'])
             filelist = os.listdir(path)
 
@@ -57,23 +51,7 @@ def uploadImg():
             for x in suffix:
                 sth.reName(x, filelist, path)
 
-            # for item in filelist:
-            #     if item.endswith('.png'):
-            #         name = item.split('.', 1)[0]
-            #         src = os.path.join(os.path.abspath(path), item)
-            #         dst = os.path.join(os.path.abspath(path), 'out.jpg')
-            #     try:
-            #         os.rename(src, dst)
-            #         print('rename from %s to %s' % (src, dst))
-            #     except:
-            #         continue
-
-            # image = cv2.imread('keypoint_body.png')
-            # jpeg = turbojpeg.encode(image)
-            # resp = make_response(jpeg)
-            # resp.headers['Content-Type'] = 'image/jpeg'
-            # resp.headers['image-focus'] = image_focus
-            return render_template('index.html')
+            return render_template('index.html', advice=advice)
             # return render_template('index.html', myImg = objFile)
         else:
             return "error"
@@ -82,4 +60,6 @@ def uploadImg():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(
+        port=80
+    )
