@@ -2,6 +2,8 @@ import requests
 import json
 import cv2
 import base64
+import os
+
 
 import numpy as np
 
@@ -18,11 +20,24 @@ def base64_to_cv2(b64str):
     return data
 
 
-# 发送HTTP请求
-org_im = cv2.imread('images.jpg') # 选择单张图片位置或批量图片文件夹路径
-data = {'images':[cv2_to_base64(org_im)]}
-headers = {"Content-type": "application/json"}
-url = "http://127.0.0.1:8866/predict/openpose_body_estimation" # 本机默认地址
-r = requests.post(url=url, headers=headers, data=json.dumps(data))
-canvas = base64_to_cv2(r.json()["results"]['data'])
-cv2.imwrite('keypoint_body.png', canvas) #保存
+def reName(suffix, filelist, path):
+    for item in filelist:
+        if item.endswith(suffix):
+            name = item.split('.', 1)[0]
+            src = os.path.join(os.path.abspath(path), item)
+            dst = os.path.join(os.path.abspath(path), 'out.jpg')
+        try:
+            os.rename(src, dst)
+            print('rename from %s to %s' % (src, dst))
+        except:
+            continue
+
+
+# # 发送HTTP请求
+# org_im = cv2.imread('images.jpg') # 选择单张图片位置或批量图片文件夹路径
+# data = {'images':[cv2_to_base64(org_im)]}
+# headers = {"Content-type": "application/json"}
+# url = "http://127.0.0.1:8866/predict/openpose_body_estimation" # 本机默认地址
+# r = requests.post(url=url, headers=headers, data=json.dumps(data))
+# canvas = base64_to_cv2(r.json()["results"]['data'])
+# cv2.imwrite('keypoint_body.png', canvas) #保存
