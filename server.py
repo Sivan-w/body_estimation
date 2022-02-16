@@ -12,7 +12,7 @@ import os
 
 app = Flask(__name__)
 model = hub.Module(name='openpose_body_estimation')
-someadvice = "欢迎使用坐姿检测器(｡･∀･)ﾉﾞ嗨"
+someadvice = "↓↓↓检测通道↓↓↓"
 
 
 @app.route('/index')

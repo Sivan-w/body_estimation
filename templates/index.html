@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        body{
+            text-align: center;
+            font-size: 10vw;
+        }
+    </style>
     <meta charset="UTF-8">
     <title>好好坐着</title>
     <script>
@@ -14,8 +20,9 @@
     </script>
 </head>
 <body>
-    {{advice}}
-    <form method="post" action="/upload" enctype="multipart/form-data" >
+欢迎使用坐姿检测器(｡･∀･)ﾉﾞ嗨
+<p style="font-size: 2vw">{{advice}}</p>
+    <form method="post" action="/upload" enctype="multipart/form-data" style="font-size: 2vw">
         <input type="file" name="myImg" onchange="showImg(this)">
         <input type="submit" value="就这样">
     </form>
