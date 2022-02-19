@@ -9,6 +9,7 @@
     </style>
     <meta charset="UTF-8">
     <title>好好坐着</title>
+    <link rel="icon" href="./static/icon.ico" sizes="32*32">
     <script>
         function showImg(file){
             var reader = new FileReader();
@@ -20,8 +21,9 @@
     </script>
 </head>
 <body>
+<p> <br></p>
 欢迎使用坐姿检测器(｡･∀･)ﾉﾞ嗨
-<p style="font-size: 2vw">{{advice}}</p>
+<p style="font-size: 3vw">{{advice}}</p>
     <form method="post" action="/upload" enctype="multipart/form-data" style="font-size: 2vw">
         <input type="file" name="myImg" onchange="showImg(this)">
         <input type="submit" value="就这样">

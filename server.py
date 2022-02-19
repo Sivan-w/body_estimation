@@ -61,5 +61,6 @@ def uploadImg():
 
 if __name__ == '__main__':
     app.run(
-        port=80
+        host='192.168.2.174',
+        port=808
     )
